@@ -128,6 +128,43 @@ Current lab resources include:
 - User-assigned managed identity
 - Azure RBAC assignments
 
+## Infrastructure as Code
+
+The Azure architecture was first built and reviewed manually to understand the security controls, trust boundaries, and application data flows.
+
+The environment was then translated into Terraform to make the design repeatable and easier to review as code.
+
+The Terraform configuration includes:
+
+- Resource group
+- Virtual network
+- Web, API, and Data subnets
+- Network Security Groups
+- Custom allow and deny rules
+- Microsoft.KeyVault service endpoint
+- User-assigned managed identity
+- Azure Key Vault
+- Log Analytics workspace
+- Key Vault RBAC assignment
+- Key Vault diagnostic settings
+
+The Terraform configuration was initialized using the AzureRM provider and successfully validated with:
+
+```text
+terraform init
+terraform validate
+```
+
+Validation result:
+
+```text
+Success! The configuration is valid.
+```
+
+The Terraform code is located in:
+
+[`terraform/`](terraform/)
+
 ## Planned Improvements
 
 Future phases will include:
