@@ -207,6 +207,33 @@ The automation script is located at:
 
 [`automation/security_review.py`](automation/security_review.py)
 
+## CI/CD Security Validation
+
+GitHub Actions is used to automatically validate infrastructure changes and run security checks whenever relevant Terraform or automation files are changed.
+
+The workflow performs the following steps:
+
+1. Checks out the repository
+2. Configures Python
+3. Runs the automated Terraform security review
+4. Configures Terraform
+5. Runs `terraform init`
+6. Runs `terraform validate`
+
+The workflow is triggered on pushes and pull requests that modify:
+
+- `terraform/**`
+- `automation/**`
+- `.github/workflows/security-review.yml`
+
+This creates a repeatable review process where infrastructure changes are checked before deployment.
+
+Current workflow:
+
+[`/.github/workflows/security-review.yml`](.github/workflows/security-review.yml)
+
+The latest workflow run completed successfully.
+
 ## Planned Improvements
 
 Future phases will include:
