@@ -165,6 +165,48 @@ The Terraform code is located in:
 
 [`terraform/`](terraform/)
 
+## Automated Security Review
+
+A Python-based security review script analyzes the Terraform configuration for common architectural security concerns.
+
+Current checks include:
+
+- Broad inbound NSG rules
+- Key Vault public network exposure
+- Key Vault default-deny network ACLs
+- Presence of a managed identity
+- Least-privilege Key Vault RBAC
+- Key Vault diagnostic logging
+- Web-to-API segmentation
+- API-to-Data segmentation
+
+The review follows the same structure used during security posture assessments:
+
+**Finding → Evidence → Risk → Recommendation**
+
+Example result:
+
+```text
+[PASS] No unrestricted inbound allow rule to all ports detected.
+
+AUTO-002 | MEDIUM | Key Vault public network endpoint enabled
+
+Evidence:
+public_network_access_enabled = true
+
+Risk:
+The Key Vault still exposes a public service endpoint.
+
+Recommendation:
+Evaluate Azure Private Endpoint and Private DNS for stronger network isolation.
+
+RESULT: 1 security finding(s) detected.
+```
+
+The automation script is located at:
+
+[`automation/security_review.py`](automation/security_review.py)
+
 ## Planned Improvements
 
 Future phases will include:
