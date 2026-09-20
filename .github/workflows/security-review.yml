@@ -1,0 +1,41 @@
+name: Terraform Security Review
+
+on:
+  push:
+    paths:
+      - "terraform/**"
+      - "automation/**"
+      - ".github/workflows/security-review.yml"
+
+  pull_request:
+    paths:
+      - "terraform/**"
+      - "automation/**"
+      - ".github/workflows/security-review.yml"
+
+jobs:
+  security-review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run automated security review
+        run: python automation/security_review.py
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init -backend=false
+
+      - name: Terraform Validate
+        working-directory: terraform
+        run: terraform validate
